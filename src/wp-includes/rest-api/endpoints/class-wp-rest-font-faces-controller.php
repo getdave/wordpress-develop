@@ -35,7 +35,7 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 				array(
 					'args'   => array(
 						'font_family_id' => array(
-							'description' => __( 'The ID for the parent font family of the font face.', 'gutenberg' ),
+							'description' => __( 'The ID for the parent font family of the font face.' ),
 							'type'        => 'integer',
 							'required'    => true,
 						),
@@ -62,12 +62,12 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 				array(
 					'args'   => array(
 						'font_family_id' => array(
-							'description' => __( 'The ID for the parent font family of the font face.', 'gutenberg' ),
+							'description' => __( 'The ID for the parent font family of the font face.' ),
 							'type'        => 'integer',
 							'required'    => true,
 						),
 						'id'             => array(
-							'description' => __( 'Unique identifier for the font face.', 'gutenberg' ),
+							'description' => __( 'Unique identifier for the font face.' ),
 							'type'        => 'integer',
 							'required'    => true,
 						),
@@ -111,7 +111,7 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 			if ( ! current_user_can( $post_type->cap->read ) ) {
 				return new WP_Error(
 					'rest_cannot_read',
-					__( 'Sorry, you are not allowed to access font faces.', 'gutenberg' ),
+					__( 'Sorry, you are not allowed to access font faces.' ),
 					array( 'status' => rest_authorization_required_code() )
 				);
 			}
@@ -136,7 +136,7 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 			if ( ! current_user_can( 'read_post', $post->ID ) ) {
 				return new WP_Error(
 					'rest_cannot_read',
-					__( 'Sorry, you are not allowed to access this font face.', 'gutenberg' ),
+					__( 'Sorry, you are not allowed to access this font face.' ),
 					array( 'status' => rest_authorization_required_code() )
 				);
 			}
@@ -160,7 +160,7 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 			if ( null === $settings ) {
 				return new WP_Error(
 					'rest_invalid_param',
-					__( 'font_face_settings parameter must be a valid JSON string.', 'gutenberg' ),
+					__( 'font_face_settings parameter must be a valid JSON string.' ),
 					array( 'status' => 400 )
 				);
 			}
@@ -180,8 +180,8 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 				if ( isset( $settings[ $key ] ) && ! $settings[ $key ] ) {
 					return new WP_Error(
 						'rest_invalid_param',
-						/* translators: %s: Font family setting key. */
-						sprintf( __( 'font_face_setting[%s] cannot be empty.', 'gutenberg' ), $key ),
+						/* translators: %s: Name of the missing font face settings parameter, e.g. "font_face_settings[src]". */
+						sprintf( __( '%s cannot be empty.' ), "font_face_setting[ $key ]" ),
 						array( 'status' => 400 )
 					);
 				}
@@ -196,7 +196,8 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 				if ( empty( $src ) ) {
 					return new WP_Error(
 						'rest_invalid_param',
-						__( 'font_face_settings[src] values must be non-empty strings.', 'gutenberg' ),
+						/* translators: %s: Font face source parameter name: "font_face_settings[src]". */
+						sprintf( __( '%s values must be non-empty strings.' ), 'font_face_settings[src]' ),
 						array( 'status' => 400 )
 					);
 				}
@@ -205,8 +206,8 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 				if ( false === wp_http_validate_url( $src ) && ! isset( $files[ $src ] ) ) {
 					return new WP_Error(
 						'rest_invalid_param',
-						/* translators: %s: src value in the font face settings. */
-						sprintf( __( 'font_face_settings[src] value "%s" must be a valid URL or file reference.', 'gutenberg' ), $src ),
+						/* translators: 1: Font face source parameter name: "font_face_settings[src]", 2: The invalid src value. */
+						sprintf( __( '%1$s value "%2$s" must be a valid URL or file reference.' ), 'font_face_settings[src]', $src ),
 						array( 'status' => 400 )
 					);
 				}
@@ -217,8 +218,8 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 				if ( ! in_array( $file, $srcs, true ) ) {
 					return new WP_Error(
 						'rest_invalid_param',
-						// translators: %s: File key (e.g. `file-0`) in the request data.
-						sprintf( __( 'File %1$s must be used in font_face_settings[src].', 'gutenberg' ), $file ),
+						/* translators: 1: File key (e.g. "file-0") in the request data, 2: Font face source parameter name: "font_face_settings[src]". */
+						sprintf( __( 'File %1$s must be used in %2$s.' ), $file, 'font_face_settings[src]' ),
 						array( 'status' => 400 )
 					);
 				}
@@ -291,7 +292,7 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 				return new WP_Error(
 					'rest_font_face_parent_id_mismatch',
 					/* translators: %d: A post id. */
-					sprintf( __( 'The font face does not belong to the specified font family with id of "%d"', 'gutenberg' ), $font_family->ID ),
+					sprintf( __( 'The font face does not belong to the specified font family with id of "%d".' ), $font_family->ID ),
 					array( 'status' => 404 )
 				);
 			}
@@ -330,7 +331,7 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 			if ( ! empty( $query->get_posts() ) ) {
 				return new WP_Error(
 					'rest_duplicate_font_face',
-					__( 'A font face matching those settings already exists.', 'gutenberg' ),
+					__( 'A font face matching those settings already exists.' ),
 					array( 'status' => 400 )
 				);
 			}
@@ -405,7 +406,7 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 				return new WP_Error(
 					'rest_font_face_parent_id_mismatch',
 					/* translators: %d: A post id. */
-					sprintf( __( 'The font face does not belong to the specified font family with id of "%d"', 'gutenberg' ), $font_family->ID ),
+					sprintf( __( 'The font face does not belong to the specified font family with id of "%d".' ), $font_family->ID ),
 					array( 'status' => 404 )
 				);
 			}
@@ -417,7 +418,7 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 				return new WP_Error(
 					'rest_trash_not_supported',
 					/* translators: %s: force=true */
-					sprintf( __( "Font faces do not support trashing. Set '%s' to delete.", 'gutenberg' ), 'force=true' ),
+					sprintf( __( "Font faces do not support trashing. Set '%s' to delete." ), 'force=true' ),
 					array( 'status' => 501 )
 				);
 			}
@@ -501,7 +502,7 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 						'readonly'    => true,
 					),
 					'theme_json_version' => array(
-						'description' => __( 'Version of the theme.json schema used for the typography settings.', 'gutenberg' ),
+						'description' => __( 'Version of the theme.json schema used for the typography settings.' ),
 						'type'        => 'integer',
 						'default'     => 2,
 						'minimum'     => 2,
@@ -509,19 +510,19 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 						'context'     => array( 'view', 'edit', 'embed' ),
 					),
 					'parent'             => array(
-						'description' => __( 'The ID for the parent font family of the font face.', 'gutenberg' ),
+						'description' => __( 'The ID for the parent font family of the font face.' ),
 						'type'        => 'integer',
 						'context'     => array( 'view', 'edit', 'embed' ),
 					),
 					// Font face settings come directly from theme.json schema
 					// See https://schemas.wp.org/trunk/theme.json
 					'font_face_settings' => array(
-						'description'          => __( 'font-face declaration in theme.json format.', 'gutenberg' ),
+						'description'          => __( 'font-face declaration in theme.json format.' ),
 						'type'                 => 'object',
 						'context'              => array( 'view', 'edit', 'embed' ),
 						'properties'           => array(
 							'fontFamily'            => array(
-								'description' => __( 'CSS font-family value.', 'gutenberg' ),
+								'description' => __( 'CSS font-family value.' ),
 								'type'        => 'string',
 								'default'     => '',
 								'arg_options' => array(
@@ -529,7 +530,7 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 								),
 							),
 							'fontStyle'             => array(
-								'description' => __( 'CSS font-style value.', 'gutenberg' ),
+								'description' => __( 'CSS font-style value.' ),
 								'type'        => 'string',
 								'default'     => 'normal',
 								'arg_options' => array(
@@ -537,7 +538,7 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 								),
 							),
 							'fontWeight'            => array(
-								'description' => __( 'List of available font weights, separated by a space.', 'gutenberg' ),
+								'description' => __( 'List of available font weights, separated by a space.' ),
 								'default'     => '400',
 								// Changed from `oneOf` to avoid errors from loose type checking.
 								// e.g. a fontWeight of "400" validates as both a string and an integer due to is_numeric check.
@@ -547,7 +548,7 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 								),
 							),
 							'fontDisplay'           => array(
-								'description' => __( 'CSS font-display value.', 'gutenberg' ),
+								'description' => __( 'CSS font-display value.' ),
 								'type'        => 'string',
 								'default'     => 'fallback',
 								'enum'        => array(
@@ -562,7 +563,7 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 								),
 							),
 							'src'                   => array(
-								'description' => __( 'Paths or URLs to the font files.', 'gutenberg' ),
+								'description' => __( 'Paths or URLs to the font files.' ),
 								// Changed from `oneOf` to `anyOf` due to rest_sanitize_array converting a string into an array,
 								// and causing a "matches more than one of the expected formats" error.
 								'anyOf'       => array(
@@ -584,70 +585,70 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 								),
 							),
 							'fontStretch'           => array(
-								'description' => __( 'CSS font-stretch value.', 'gutenberg' ),
+								'description' => __( 'CSS font-stretch value.' ),
 								'type'        => 'string',
 								'arg_options' => array(
 									'sanitize_callback' => 'sanitize_text_field',
 								),
 							),
 							'ascentOverride'        => array(
-								'description' => __( 'CSS ascent-override value.', 'gutenberg' ),
+								'description' => __( 'CSS ascent-override value.' ),
 								'type'        => 'string',
 								'arg_options' => array(
 									'sanitize_callback' => 'sanitize_text_field',
 								),
 							),
 							'descentOverride'       => array(
-								'description' => __( 'CSS descent-override value.', 'gutenberg' ),
+								'description' => __( 'CSS descent-override value.' ),
 								'type'        => 'string',
 								'arg_options' => array(
 									'sanitize_callback' => 'sanitize_text_field',
 								),
 							),
 							'fontVariant'           => array(
-								'description' => __( 'CSS font-variant value.', 'gutenberg' ),
+								'description' => __( 'CSS font-variant value.' ),
 								'type'        => 'string',
 								'arg_options' => array(
 									'sanitize_callback' => 'sanitize_text_field',
 								),
 							),
 							'fontFeatureSettings'   => array(
-								'description' => __( 'CSS font-feature-settings value.', 'gutenberg' ),
+								'description' => __( 'CSS font-feature-settings value.' ),
 								'type'        => 'string',
 								'arg_options' => array(
 									'sanitize_callback' => 'sanitize_text_field',
 								),
 							),
 							'fontVariationSettings' => array(
-								'description' => __( 'CSS font-variation-settings value.', 'gutenberg' ),
+								'description' => __( 'CSS font-variation-settings value.' ),
 								'type'        => 'string',
 								'arg_options' => array(
 									'sanitize_callback' => 'sanitize_text_field',
 								),
 							),
 							'lineGapOverride'       => array(
-								'description' => __( 'CSS line-gap-override value.', 'gutenberg' ),
+								'description' => __( 'CSS line-gap-override value.' ),
 								'type'        => 'string',
 								'arg_options' => array(
 									'sanitize_callback' => 'sanitize_text_field',
 								),
 							),
 							'sizeAdjust'            => array(
-								'description' => __( 'CSS size-adjust value.', 'gutenberg' ),
+								'description' => __( 'CSS size-adjust value.' ),
 								'type'        => 'string',
 								'arg_options' => array(
 									'sanitize_callback' => 'sanitize_text_field',
 								),
 							),
 							'unicodeRange'          => array(
-								'description' => __( 'CSS unicode-range value.', 'gutenberg' ),
+								'description' => __( 'CSS unicode-range value.' ),
 								'type'        => 'string',
 								'arg_options' => array(
 									'sanitize_callback' => 'sanitize_text_field',
 								),
 							),
 							'preview'               => array(
-								'description' => __( 'URL to a preview image of the font face.', 'gutenberg' ),
+								'description' => __( 'URL to a preview image of the font face.' ),
 								'type'        => 'string',
 								'format'      => 'uri',
 								'default'     => '',
@@ -734,7 +735,7 @@ if ( ! class_exists( 'WP_REST_Font_Faces_Controller' ) ) {
 				// When creating, font_face_settings is stringified JSON, to work with multipart/form-data used
 				// when uploading font files.
 				'font_face_settings' => array(
-					'description'       => __( 'font-face declaration in theme.json format, encoded as a string.', 'gutenberg' ),
+					'description'       => __( 'font-face declaration in theme.json format, encoded as a string.' ),
 					'type'              => 'string',
 					'required'          => true,
 					'validate_callback' => array( $this, 'validate_create_font_face_settings' ),
