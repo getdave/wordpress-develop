@@ -37,7 +37,7 @@ if ( ! class_exists( 'WP_REST_Font_Families_Controller' ) ) {
 			if ( ! current_user_can( $post_type->cap->read ) ) {
 				return new WP_Error(
 					'rest_cannot_read',
-					__( 'Sorry, you are not allowed to access font families.', 'gutenberg' ),
+					__( 'Sorry, you are not allowed to access font families.' ),
 					array( 'status' => rest_authorization_required_code() )
 				);
 			}
@@ -62,7 +62,7 @@ if ( ! class_exists( 'WP_REST_Font_Families_Controller' ) ) {
 			if ( ! current_user_can( 'read_post', $post->ID ) ) {
 				return new WP_Error(
 					'rest_cannot_read',
-					__( 'Sorry, you are not allowed to access this font family.', 'gutenberg' ),
+					__( 'Sorry, you are not allowed to access this font family.' ),
 					array( 'status' => rest_authorization_required_code() )
 				);
 			}
@@ -86,7 +86,8 @@ if ( ! class_exists( 'WP_REST_Font_Families_Controller' ) ) {
 			if ( null === $settings ) {
 				return new WP_Error(
 					'rest_invalid_param',
-					__( 'font_family_settings parameter must be a valid JSON string.', 'gutenberg' ),
+					/* translators: %s: Parameter name: "font_family_settings". */
+					sprintf( __( '%s parameter must be a valid JSON string.' ), 'font_family_settings' ),
 					array( 'status' => 400 )
 				);
 			}
@@ -102,7 +103,8 @@ if ( ! class_exists( 'WP_REST_Font_Families_Controller' ) ) {
 				if ( isset( $settings['slug'] ) ) {
 					return new WP_Error(
 						'rest_invalid_param',
-						__( 'font_family_settings[slug] cannot be updated.', 'gutenberg' ),
+						/* translators: %s: Name of parameter being updated: font_family_settings[slug]". */
+						sprintf( __( '%s cannot be updated.' ), 'font_family_settings[slug]' ),
 						array( 'status' => 400 )
 					);
 				}
@@ -121,8 +123,8 @@ if ( ! class_exists( 'WP_REST_Font_Families_Controller' ) ) {
 				if ( isset( $settings[ $key ] ) && ! $settings[ $key ] ) {
 					return new WP_Error(
 						'rest_invalid_param',
-						/* translators: %s: Font family setting key. */
-						sprintf( __( 'font_family_settings[%s] cannot be empty.', 'gutenberg' ), $key ),
+						/* translators: %s: Name of the empty font family setting parameter, e.g. "font_family_settings[slug]". */
+						sprintf( __( '%s cannot be empty.' ), "font_family_settings[ $key ]" ),
 						array( 'status' => 400 )
 					);
 				}
@@ -179,7 +181,7 @@ if ( ! class_exists( 'WP_REST_Font_Families_Controller' ) ) {
 				return new WP_Error(
 					'rest_duplicate_font_family',
 					/* translators: %s: Font family slug. */
-					sprintf( __( 'A font family with slug "%s" already exists.', 'gutenberg' ), $settings['slug'] ),
+					sprintf( __( 'A font family with slug "%s" already exists.' ), $settings['slug'] ),
 					array( 'status' => 400 )
 				);
 			}
@@ -203,7 +205,7 @@ if ( ! class_exists( 'WP_REST_Font_Families_Controller' ) ) {
 				return new WP_Error(
 					'rest_trash_not_supported',
 					/* translators: %s: force=true */
-					sprintf( __( "Font faces do not support trashing. Set '%s' to delete.", 'gutenberg' ), 'force=true' ),
+					sprintf( __( "Font faces do not support trashing. Set '%s' to delete." ), 'force=true' ),
 					array( 'status' => 501 )
 				);
 			}
@@ -288,7 +290,7 @@ if ( ! class_exists( 'WP_REST_Font_Families_Controller' ) ) {
 						'readonly'    => true,
 					),
 					'theme_json_version'   => array(
-						'description' => __( 'Version of the theme.json schema used for the typography settings.', 'gutenberg' ),
+						'description' => __( 'Version of the theme.json schema used for the typography settings.' ),
 						'type'        => 'integer',
 						'default'     => 2,
 						'minimum'     => 2,
@@ -296,7 +298,7 @@ if ( ! class_exists( 'WP_REST_Font_Families_Controller' ) ) {
 						'context'     => array( 'view', 'edit', 'embed' ),
 					),
 					'font_faces'           => array(
-						'description' => __( 'The IDs of the child font faces in the font family.', 'gutenberg' ),
+						'description' => __( 'The IDs of the child font faces in the font family.' ),
 						'type'        => 'array',
 						'context'     => array( 'view', 'edit', 'embed' ),
 						'items'       => array(
@@ -306,33 +308,33 @@ if ( ! class_exists( 'WP_REST_Font_Families_Controller' ) ) {
 					// Font family settings come directly from theme.json schema
 					// See https://schemas.wp.org/trunk/theme.json
 					'font_family_settings' => array(
-						'description'          => __( 'font-face definition in theme.json format.', 'gutenberg' ),
+						'description'          => __( 'font-face definition in theme.json format.' ),
 						'type'                 => 'object',
 						'context'              => array( 'view', 'edit', 'embed' ),
 						'properties'           => array(
 							'name'       => array(
-								'description' => __( 'Name of the font family preset, translatable.', 'gutenberg' ),
+								'description' => __( 'Name of the font family preset, translatable.' ),
 								'type'        => 'string',
 								'arg_options' => array(
 									'sanitize_callback' => 'sanitize_text_field',
 								),
 							),
 							'slug'       => array(
-								'description' => __( 'Kebab-case unique identifier for the font family preset.', 'gutenberg' ),
+								'description' => __( 'Kebab-case unique identifier for the font family preset.' ),
 								'type'        => 'string',
 								'arg_options' => array(
 									'sanitize_callback' => 'sanitize_title',
 								),
 							),
 							'fontFamily' => array(
-								'description' => __( 'CSS font-family value.', 'gutenberg' ),
+								'description' => __( 'CSS font-family value.' ),
 								'type'        => 'string',
 								'arg_options' => array(
 									'sanitize_callback' => array( 'WP_Font_Utils', 'sanitize_font_family' ),
 								),
 							),
 							'preview'    => array(
-								'description' => __( 'URL to a preview image of the font family.', 'gutenberg' ),
+								'description' => __( 'URL to a preview image of the font family.' ),
 								'type'        => 'string',
 								'format'      => 'uri',
 								'default'     => '',
@@ -419,7 +421,7 @@ if ( ! class_exists( 'WP_REST_Font_Families_Controller' ) ) {
 					// When creating or updating, font_family_settings is stringified JSON, to work with multipart/form-data.
 					// Font families don't currently support file uploads, but may accept preview files in the future.
 					'font_family_settings' => array(
-						'description'       => __( 'font-family declaration in theme.json format, encoded as a string.', 'gutenberg' ),
+						'description'       => __( 'font-family declaration in theme.json format, encoded as a string.' ),
 						'type'              => 'string',
 						'required'          => true,
 						'validate_callback' => array( $this, 'validate_font_family_settings' ),
