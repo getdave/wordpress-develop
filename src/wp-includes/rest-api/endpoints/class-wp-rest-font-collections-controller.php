@@ -229,28 +229,28 @@ if ( ! class_exists( 'WP_REST_Font_Collections_Controller' ) ) {
 				'type'       => 'object',
 				'properties' => array(
 					'slug'          => array(
-						'description' => __( 'Unique identifier for the font collection.', 'gutenberg' ),
+						'description' => __( 'Unique identifier for the font collection.' ),
 						'type'        => 'string',
 						'context'     => array( 'view', 'edit', 'embed' ),
 						'readonly'    => true,
 					),
 					'name'          => array(
-						'description' => __( 'The name for the font collection.', 'gutenberg' ),
+						'description' => __( 'The name for the font collection.' ),
 						'type'        => 'string',
 						'context'     => array( 'view', 'edit', 'embed' ),
 					),
 					'description'   => array(
-						'description' => __( 'The description for the font collection.', 'gutenberg' ),
+						'description' => __( 'The description for the font collection.' ),
 						'type'        => 'string',
 						'context'     => array( 'view', 'edit', 'embed' ),
 					),
 					'font_families' => array(
-						'description' => __( 'The font families for the font collection.', 'gutenberg' ),
+						'description' => __( 'The font families for the font collection.' ),
 						'type'        => 'array',
 						'context'     => array( 'view', 'edit', 'embed' ),
 					),
 					'categories'    => array(
-						'description' => __( 'The categories for the font collection.', 'gutenberg' ),
+						'description' => __( 'The categories for the font collection.' ),
 						'type'        => 'array',
 						'context'     => array( 'view', 'edit', 'embed' ),
 					),
